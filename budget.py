@@ -5,13 +5,19 @@ class Category:
     def __init__(self,name):
         self.name = name
 
-    def deposit():
+    def deposit(self,amount,description=""):
         #A deposit method that accepts an amount and description. 
         #If no description is given, it should default to an empty string.
         #The method should append an object to the ledger list in the form of 
         #{"amount": amount, "description": description}.
-        pass
-    
+        #created a "self" dictionary for each category object, containing its value and description
+        self = dict()
+        self["amount"] = amount
+        self["description"] = description
+        #adding the dictionary to the ledger list
+        #hmmm maybe find a way to write that on a csv file (fun)
+        Category.ledger.append(self)
+        
     def withdraw():
         #A withdraw method that is similar to the deposit method,
         #but the amount passed in should be stored in the ledger as a negative number. 
@@ -42,10 +48,16 @@ class Category:
 
 
 
+#creating the category objects
+food = Category("Food")
+clothing = Category("Clothing")
+entertainment = Category("Entertainment")
 
-cat1 = Category("Food")
-cat2 = Category("Clothing")
-cat3 = Category("Entertainment")
+#calling the deposide method, which creates a dictionary for each category, containing the money deposited for each category along with the description
+Category.deposit(food,500,"Money deposited for food")
+Category.deposit(clothing,700,"Money deposited for clothes")
+Category.deposit(entertainment,200,"Money deposited for weekend hangouts")
+print(Category.ledger)
 
 
 
