@@ -16,6 +16,8 @@ class Category:
         #{"amount": amount, "description": description}.
         #created a "self" dictionary for each category object, containing its value and description
         self = dict()
+        #okay maybe make a condition to add the key and value if the disctionary doesnt exist to avoid overwriting it 
+
         self["amount"] = amount
         self["description"] = description
         #adding the dictionary to the ledger list
@@ -27,6 +29,12 @@ class Category:
         #but the amount passed in should be stored in the ledger as a negative number. 
         #If there are not enough funds, nothing should be added to the ledger.
         #This method should return True if the withdrawal took place, and False otherwise.
+        self = dict()
+        self["amount"] = float(-amount)
+        self["description"] = description
+        #adding the dictionary to the ledger list
+        #hmmm maybe find a way to write that on a csv file (fun)
+        Category.ledger.append(self)
         
         return True
         return False
