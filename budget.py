@@ -61,10 +61,10 @@ clothing = Category("Clothing")
 entertainment = Category("Entertainment")
 
 #calling the deposide method, which creates a dictionary for each category, containing the money deposited for each category along with the description
-Category.deposit(food,500,"Money deposited for food")
-Category.deposit(clothing,300,"Money deposited for clothes")
-Category.deposit(entertainment,200,"Money deposited for weekend hangouts")
-#print(Category.ledger)
+food.deposit(500,"Money deposited for food")
+clothing.deposit(300,"Money deposited for clothes")
+entertainment.deposit(200,"Money deposited for weekend hangouts")
+print(Category.ledger)
 
 
 
