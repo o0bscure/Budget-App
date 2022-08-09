@@ -1,9 +1,13 @@
+
+
 class Category:
     
     ledger = list()
+    categories = []
     
     def __init__(self,name):
         self.name = name
+        Category.categories.append(self)
 
     def deposit(self,amount,description=""):
         #A deposit method that accepts an amount and description. 
@@ -18,11 +22,14 @@ class Category:
         #hmmm maybe find a way to write that on a csv file (fun)
         Category.ledger.append(self)
         
-    def withdraw():
+    def withdraw(self,amount,description=""):
         #A withdraw method that is similar to the deposit method,
         #but the amount passed in should be stored in the ledger as a negative number. 
         #If there are not enough funds, nothing should be added to the ledger.
         #This method should return True if the withdrawal took place, and False otherwise.
+        
+        return True
+        return False
         pass
 
     def get_balance():
@@ -55,9 +62,9 @@ entertainment = Category("Entertainment")
 
 #calling the deposide method, which creates a dictionary for each category, containing the money deposited for each category along with the description
 Category.deposit(food,500,"Money deposited for food")
-Category.deposit(clothing,700,"Money deposited for clothes")
+Category.deposit(clothing,300,"Money deposited for clothes")
 Category.deposit(entertainment,200,"Money deposited for weekend hangouts")
-print(Category.ledger)
+#print(Category.ledger)
 
 
 
@@ -65,5 +72,15 @@ print(Category.ledger)
 
 
 
+
+
+
+
+categories = []
+for cat in Category.categories:
+    categories.append(cat.name)
 def create_spend_chart(categories):
-    pass
+    #create a function (outside of the class) called create_spend_chart that takes a list of categories as an argument. It should return a string that is a bar chart.
+    return str(categories)
+#print this method later
+create_spend_chart(categories)
