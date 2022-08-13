@@ -2,49 +2,60 @@
 
 class Category:
     
-    ledger = list()
-    #need to keep track of a balance
-    balance = float()
+    #making an independent ledger for each withdraw and deposit
+    deposit_ledger = list()
+    withdraw_ledger = list()
+
     categories = []
     
-    def __init__(self,name:str):
+    def __init__(self,name:str,balance=float()):
         self.name = name
-        Category.categories.append(self)
+        #tried add balance as an attribute for each object, which is isnt determined yet
+        self.balance = balance
+        Category.categories.append(self) #or self .name ?! , i'll have to look at the latest function requirement later
 
     def deposit(self,amount,description=""):
         #A deposit method that accepts an amount and description. 
         #If no description is given, it should default to an empty string.
         #The method should append an object to the ledger list in the form of 
         #{"amount": amount, "description": description}.
+        
+        #keeping track of the balance
+        self.balance = self.balance + amount
         #created a "self" dictionary for each category object, containing its value and description
         self = dict()
-        #okay maybe make a condition to add the key and value if the disctionary doesnt exist to avoid overwriting it 
+        #okay maybe make a condition to add the key and value if the disctionary doesnt exist to avoid overwriting it
+        #you'll have tp manipulate existing ledger in case you wanna deposite twice 
         self["amount"] = amount
         self["description"] = description
         #adding the dictionary to the ledger list
         #hmmm maybe find a way to write that on a csv file (fun)
-        Category.ledger.append(self)
-        
+        Category.deposit_ledger.append(self)
         
     def withdraw(self,amount,description=""):
         #A withdraw method that is similar to the deposit method,
         #but the amount passed in should be stored in the ledger as a negative number. 
         #If there are not enough funds, nothing should be added to the ledger.
         #This method should return True if the withdrawal took place, and False otherwise.
-        #assert amount < 0, f"the amount {amount} isn't a negative number"
-        self.amount = 
-        #later you can manupulate the ledger maybe 
-        for item in Category.ledger:
-            if self is item:
-                print(item)
-                item["amount"] = 0
-    
-        #adding the dictionary to the ledger list
-        #hmmm maybe find a way to write that on a csv file (fun)
         
-        return True
-        return False
-        pass
+        #keep track of the balance
+        self.balance = self.balance - amount
+        #making sure i add nothing to the ledger if there isnt enough balance(not enough deposited money to withdraw from)
+        if self.balance < 0:
+            print("not enough balance")
+            return False
+        #okay maybe make a condition to add the key and value if the disctionary doesnt exist to avoid overwriting it
+        #you'll have tp manipulate existing ledger in case you wanna withdraw twice
+        #each withdraw will add the object withdrawn from as a dictionary
+        else:
+            self = dict()
+            #the amount should be stored in the withdraw ledger as a negative number, did that by adding the minus sign as a string then convert it to string
+            self["amount"] = "-"+ str(amount)
+            self["amount"] = int(self["amount"])
+            self["description"] = description
+            Category.withdraw_ledger.append(self)
+            return True
+
 
     def get_balance():
         #A get_balance method that returns the current balance of the budget category 
@@ -79,9 +90,12 @@ food.deposit(500,"Money deposited for food")
 clothing.deposit(200,"Money for clothes")
 entertainment.deposit(300,"Money for hangouts")
 
-food.withdraw(-200,"Money spend on food")
+print(food.withdraw(200,"Money spend on food"))
 
-print(Category.ledger)
+print(Category.deposit_ledger)
+print(Category.withdraw_ledger)
+
+
 
 
 
