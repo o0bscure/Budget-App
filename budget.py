@@ -1,5 +1,8 @@
 
 
+from webbrowser import get
+
+
 class Category:
     
     #making an independent ledger for each withdraw and deposit
@@ -8,7 +11,7 @@ class Category:
 
     categories = []
     
-    def __init__(self,name:str,balance=float()):
+    def __init__(self,name:str,balance=int()):
         self.name = name
         #tried add balance as an attribute for each object, which is isnt determined yet
         self.balance = balance
@@ -57,12 +60,17 @@ class Category:
             return True
 
 
-    def get_balance():
+    def get_balance(self):
+        return self.balance
         #A get_balance method that returns the current balance of the budget category 
-        #based on the deposits and withdrawals that have occurred.
-        pass
-    
-    def transfer():
+        #based on the deposits and withdrawals that have occurred
+        
+    def transfer(self,transto,amount=int,description=""):
+        #that transto has to be an object
+        #transamount = self.balance - amount
+        self.withdraw(amount)
+        #need to adjust this method to take another object other than self as a parameter
+        transto.deposite(amount)
         #A transfer method that accepts an amount and another budget category as arguments. 
         #The method should add a withdrawal with the amount and the description "Transfer to [Destination Budget Category]".
         #The method should then add a deposit to the other budget category with the amount and the description "Transfer from [Source Budget Category]".
@@ -90,10 +98,15 @@ food.deposit(500,"Money deposited for food")
 clothing.deposit(200,"Money for clothes")
 entertainment.deposit(300,"Money for hangouts")
 
-print(food.withdraw(200,"Money spend on food"))
+
 
 print(Category.deposit_ledger)
-print(Category.withdraw_ledger)
+print(food.get_balance())
+food.transfer(clothing,150,"Treansfer from food to clothing")
+print(food.get_balance())
+
+#print(clothing.get_balance())
+
 
 
 
