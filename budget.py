@@ -3,9 +3,11 @@
 class Category:
     
     ledger = list()
+    #need to keep track of a balance
+    balance = float()
     categories = []
     
-    def __init__(self,name):
+    def __init__(self,name:str):
         self.name = name
         Category.categories.append(self)
 
@@ -17,24 +19,28 @@ class Category:
         #created a "self" dictionary for each category object, containing its value and description
         self = dict()
         #okay maybe make a condition to add the key and value if the disctionary doesnt exist to avoid overwriting it 
-
         self["amount"] = amount
         self["description"] = description
         #adding the dictionary to the ledger list
         #hmmm maybe find a way to write that on a csv file (fun)
         Category.ledger.append(self)
         
+        
     def withdraw(self,amount,description=""):
         #A withdraw method that is similar to the deposit method,
         #but the amount passed in should be stored in the ledger as a negative number. 
         #If there are not enough funds, nothing should be added to the ledger.
         #This method should return True if the withdrawal took place, and False otherwise.
-        self = dict()
-        self["amount"] = float(-amount)
-        self["description"] = description
+        #assert amount < 0, f"the amount {amount} isn't a negative number"
+        self.amount = 
+        #later you can manupulate the ledger maybe 
+        for item in Category.ledger:
+            if self is item:
+                print(item)
+                item["amount"] = 0
+    
         #adding the dictionary to the ledger list
         #hmmm maybe find a way to write that on a csv file (fun)
-        Category.ledger.append(self)
         
         return True
         return False
@@ -70,9 +76,13 @@ entertainment = Category("Entertainment")
 
 #calling the deposide method, which creates a dictionary for each category, containing the money deposited for each category along with the description
 food.deposit(500,"Money deposited for food")
-clothing.deposit(300,"Money deposited for clothes")
-entertainment.deposit(200,"Money deposited for weekend hangouts")
+clothing.deposit(200,"Money for clothes")
+entertainment.deposit(300,"Money for hangouts")
+
+food.withdraw(-200,"Money spend on food")
+
 print(Category.ledger)
+
 
 
 
