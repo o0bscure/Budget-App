@@ -1,7 +1,5 @@
 
 
-from webbrowser import get
-
 
 class Category:
     
@@ -65,18 +63,22 @@ class Category:
         #A get_balance method that returns the current balance of the budget category 
         #based on the deposits and withdrawals that have occurred
         
-    def transfer(self,transto,amount=int,description=""):
-        #that transto has to be an object
-        #transamount = self.balance - amount
-        #self.withdraw(amount)
-        #need to adjust this method to take another object other than self as a parameter
-        #transto.deposite(amount)
+    def transfer(self,transto,amount:int,description=""):
+        #that transto has to be an object(category)
+        #first withdraw the amount to be transefered from the desired category.
+        self.withdraw(amount)
+        #check within the categories list if the category you're transfering to exist
+        assert transto in Category.categories, f"{transto} isn't a category!!"
+        for object in Category.categories:
+            if transto == object:
+                #if the targetted category(object) exist, deposite the money you trasfered
+                object.deposit(amount)
+
         #A transfer method that accepts an amount and another budget category as arguments. 
         #The method should add a withdrawal with the amount and the description "Transfer to [Destination Budget Category]".
         #The method should then add a deposit to the other budget category with the amount and the description "Transfer from [Source Budget Category]".
         #If there are not enough funds, nothing should be added to either ledgers.
         # This method should return True if the transfer took place, and False otherwise.
-        pass
     
     def check_funds():
         #A check_funds method that accepts an amount as an argument.
@@ -101,10 +103,14 @@ entertainment.deposit(300,"Money for hangouts")
 
 
 print(Category.deposit_ledger)
-print(food.get_balance())
 #food.transfer(clothing,150,"Treansfer from food to clothing")
-food.withdraw(300)
+#food.withdraw(300)
 print(food.get_balance())
+print(entertainment.get_balance())
+food.transfer(entertainment,100)
+print(food.get_balance())
+print(entertainment.get_balance())
+
 
 #print(clothing.get_balance())
 
