@@ -34,21 +34,14 @@ class Category:
         Category.deposit_ledger.append(self)
         
     def withdraw(self,amount,description=""):
-        #A withdraw method that is similar to the deposit method,
-        #but the amount passed in should be stored in the ledger as a negative number. 
-        #If there are not enough funds, nothing should be added to the ledger.
-        #This method should return True if the withdrawal took place, and False otherwise.
-        
         #keep track of the balance
-        self.balance = self.balance - amount
-        #making sure i add nothing to the ledger if there isnt enough balance(not enough deposited money to withdraw from)
-        if self.balance < 0:
-            print("not enough balance")
-            return False
-        #okay maybe make a condition to add the key and value if the disctionary doesnt exist to avoid overwriting it
-        #you'll have tp manipulate existing ledger in case you wanna withdraw twice
-        #each withdraw will add the object withdrawn from as a dictionary
-        else:
+        if amount < self.balance:    #fixed bug here where the value of the balance can be in negative.
+            #THIS NEEDS FIXING!!!
+            self.balance = self.balance - amount
+            #making sure i add nothing to the ledger if there isnt enough balance(not enough deposited money to withdraw from)
+            #okay maybe make a condition to add the key and value if the disctionary doesnt exist to avoid overwriting it
+            #you'll have tp manipulate existing ledger in case you wanna withdraw twice
+            #each withdraw will add the object withdrawn from as a dictionary
             self = dict()
             #the amount should be stored in the withdraw ledger as a negative number, did that by adding the minus sign as a string then convert it to string
             self["amount"] = "-"+ str(amount)
@@ -56,6 +49,9 @@ class Category:
             self["description"] = description
             Category.withdraw_ledger.append(self)
             return True
+        else:
+            print("not enough balance")
+            return False
 
 
     def get_balance(self):
@@ -64,15 +60,23 @@ class Category:
         #based on the deposits and withdrawals that have occurred
         
     def transfer(self,transto,amount:int,description=""):
+        if not isinstance(transto,Category):
+            print(f"{transto} isn't a category")
+            return False
         #that transto has to be an object(category)
         #first withdraw the amount to be transefered from the desired category.
         self.withdraw(amount)
         #check within the categories list if the category you're transfering to exist
-        assert transto in Category.categories, f"{transto} isn't a category!!"
+        #assert transto in Category.categories, f"{transto} isn't a category!!"
         for object in Category.categories:
             if transto == object:
                 #if the targetted category(object) exist, deposite the money you trasfered
-                object.deposit(amount)
+                try:
+                    object.deposit(amount)
+                    return True
+                except:
+                    return False
+            
 
         #A transfer method that accepts an amount and another budget category as arguments. 
         #The method should add a withdrawal with the amount and the description "Transfer to [Destination Budget Category]".
@@ -102,17 +106,13 @@ entertainment.deposit(300,"Money for hangouts")
 
 
 
-print(Category.deposit_ledger)
-#food.transfer(clothing,150,"Treansfer from food to clothing")
-#food.withdraw(300)
 print(food.get_balance())
-print(entertainment.get_balance())
-food.transfer(entertainment,100)
-print(food.get_balance())
-print(entertainment.get_balance())
-
-
+food.withdraw(500)
 #print(clothing.get_balance())
+#food.transfer(clothing,500)
+print(food.get_balance())
+#print(clothing.get_balance())
+
 
 
 
