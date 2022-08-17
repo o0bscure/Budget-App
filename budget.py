@@ -34,9 +34,9 @@ class Category:
         Category.deposit_ledger.append(self)
         
     def withdraw(self,amount,description=""):
-        #keep track of the balance
-        if amount <= self.balance:    #fixed bug here where the value of the balance can be in negative.
-            #THIS NEEDS FIXING!!!
+        #check if the given amount to be withdrawn is actually available for that category
+        if self.check_funds(amount) == True:
+            #withdraw from the category balance
             self.balance = self.balance - amount
             #making sure i add nothing to the ledger if there isnt enough balance(not enough deposited money to withdraw from)
             #okay maybe make a condition to add the key and value if the disctionary doesnt exist to avoid overwriting it
@@ -65,14 +65,12 @@ class Category:
             print(f"{destination} isn't a category")
             return False
         else: 
-            #first withdraw the amount to be transefered from the desired category.
-            #self.withdraw(amount)
-            #if the withdraw operation has failed, return false
-            #it seems like once the function is put in an conditional statement, it actually runs!(in the that if statement the withdrawal function already being executed)
-            if self.withdraw(amount) == False:
+            #check if the amount to be transfered is available in the target caegory
+            if self.check_funds(amount) == False:
                 print(f"not enough balance in {self.name} category")
                 return False
             else:
+                self.withdraw(amount)
                 #check within the categories list if the category you're transfering to exists
                 for object in Category.categories:
                     if destination == object:
@@ -84,11 +82,15 @@ class Category:
         #The method should then add a deposit to the other budget category with the amount and the description "Transfer from [Source Budget Category]".
         #If there are not enough funds, nothing should be added to either ledgers.
     
-    def check_funds():
-        #A check_funds method that accepts an amount as an argument.
-        #It returns False if the amount is greater than the balance of the budget category and returns True otherwise.
+    
+    #a function that tells you if the input amount is availble for that particular category
+    def check_funds(self,amount):
+        #check if the amount given is greater than the category balance or not
+        if amount > self.balance:
+            return False
+        else:
+            return True
         #This method should be used by both the withdraw method and transfer method.
-        pass
 
 
 
@@ -105,21 +107,12 @@ clothing.deposit(200,"Money for clothes")
 entertainment.deposit(300,"Money for hangouts")
 
 
-
+#testing the transfer method
 print("the food balance is :",food.get_balance())
 print("the clothing balance is :",clothing.get_balance())
-food.transfer(clothing,450)
+food.transfer(clothing,200,"{amount} is transfered to {destination}")
 print("the food balance is :",food.get_balance())
 print("the clothing balance is :",clothing.get_balance())
-
-
-
-
-
-
-
-
-
 
 
 
