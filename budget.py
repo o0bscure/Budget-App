@@ -87,7 +87,10 @@ class Category:
             return True
     def __repr__(self):
         #need to make a loop inside that return statement, a loop which goes through the ledger list by index, then print the description and amount keys from each withdraw disctionary
-        return f"{self.balance}\n{self.withdraw_ledger[0]['description']}       {self.withdraw_ledger[0]['amount']}"
+        for index in range(len(self.withdraw_ledger)):
+            line = f"{self.withdraw_ledger[index]['description']} {self.withdraw_ledger[index]['amount']}"
+            print (line)
+        #return f"{self.balance}\n{self.withdraw_ledger[0]['description']} {self.withdraw_ledger[0]['amount']}\n{self.withdraw_ledger[1]['description']} {self.withdraw_ledger[2]}"
 
 
 
@@ -103,6 +106,8 @@ clothing.deposit(200,"Money for clothes")
 entertainment.deposit(300,"Money for hangouts")
 
 food.withdraw(100,"groceries")
+food.withdraw(150,"protein supplements")
+food.withdraw(50,"energy driks")
 print(food)
 
 
