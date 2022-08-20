@@ -16,11 +16,6 @@ class Category:
         Category.categories.append(self) #or self .name ?! , i'll have to look at the latest function requirement later
 
     def deposit(self,amount,description=""):
-        #A deposit method that accepts an amount and description. 
-        #If no description is given, it should default to an empty string.
-        #The method should append an object to the ledger list in the form of 
-        #{"amount": amount, "description": description}.
-        
         #keeping track of the balance
         self.balance = self.balance + amount
         #created a "self" dictionary for each category object, containing its value and description
@@ -70,18 +65,18 @@ class Category:
                 print(f"not enough balance in {self.name} category")
                 return False
             else:
+                #assert len(description) > 1, f"please add a transfer description"
+                description = f"Transfer {amount} to [{destination.name}]"
+                print(description)
                 self.withdraw(amount)
                 #check within the categories list if the category you're transfering to exists
                 for object in Category.categories:
                     if destination == object:
                         #if the targetted category(object) exist, deposite the money you trasfered
                         object.deposit(amount)
-                        print(f"Transfer {amount} from [{self.name}]")
+                        description = f"Transfer {amount} from [{self.name}]"
+                        print(description)
                         return True       
-        #The method should add a withdrawal with the amount and the description "Transfer to [Destination Budget Category]".
-        #The method should then add a deposit to the other budget category with the amount and the description "Transfer from [Source Budget Category]".
-        #If there are not enough funds, nothing should be added to either ledgers.
-    
     
     #a function that tells you if the input amount is availble for that particular category
     def check_funds(self,amount):
@@ -90,8 +85,9 @@ class Category:
             return False
         else:
             return True
-        #This method should be used by both the withdraw method and transfer method.
-
+    def __repr__(self):
+        #need to make a loop inside that return statement, a loop which goes through the ledger list by index, then print the description and amount keys from each withdraw disctionary
+        return f"{self.balance}\n{self.withdraw_ledger[0]['description']}       {self.withdraw_ledger[0]['amount']}"
 
 
 
@@ -106,13 +102,43 @@ food.deposit(500,"Money deposited for food")
 clothing.deposit(200,"Money for clothes")
 entertainment.deposit(300,"Money for hangouts")
 
+food.withdraw(100,"groceries")
+print(food)
 
-#testing the transfer method
-print("the food balance is :",food.get_balance())
-print("the clothing balance is :",clothing.get_balance())
-food.transfer(clothing,200,"{amount} is transfered to {destination}")
-print("the food balance is :",food.get_balance())
-print("the clothing balance is :",clothing.get_balance())
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
