@@ -1,6 +1,6 @@
 
 class Category:
-    #making an independent ledger for each withdraw and deposit
+    #making an independent ledger for each withdraw and deposit, each object will be assign one of those.
     deposit_ledger = list()
     withdraw_ledger = list()
     #a class attribute that can be used on all this class objects
