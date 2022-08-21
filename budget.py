@@ -1,5 +1,4 @@
 
-
 class Category:
     #making an independent ledger for each withdraw and deposit
     deposit_ledger = list()
@@ -94,18 +93,22 @@ class Category:
         #need to make a loop inside that return statement, a loop which goes through the ledger list by index, then print the description and amount keys from each withdraw disctionary
         for index in range(len(self.withdraw_ledger)):
             #next line is where each withdraw or deposite will be presented
-            #this goes through the withdraw legder list by index,pick each operation dictionary, then extracts the key and value(discription and amount) of each
-            line =f"{self.withdraw_ledger[index]['description']} {self.withdraw_ledger[index]['amount']}"
+            #adjust the position of the amount to be aligned on the right, opposite of the description, without exceeding the lenght of the entire header
+            line = str(self.withdraw_ledger[index]['description']) + str(self.withdraw_ledger[index]['amount']).rjust(len(header)-len(self.withdraw_ledger[index]['description']))
             #once extraced, add it to a list so u can pick from that list later in order to print the result
-            #question is, should i add each key and value in the chart list as a string? or should i add ass tuples and manipulate it into a string later?
             chart.append(line)
             
             
         #need to figure a way to figure out how many items in the intire chart list, then find a dynamic way to add each one into the final output
         #here i just added the list items through manual index(not great)
-        return f"{header}\n{chart[0]}\n{chart[1]}\n{chart[2]}"
-        #return f"{self.balance}\n{self.withdraw_ledger[0]['description']} {self.withdraw_ledger[0]['amount']}\n{self.withdraw_ledger[1]['description']} {self.withdraw_ledger[2]}"
-
+        #go through the chart list (by index) which has each line of discripton and amount as an item.
+        result = ""
+        for index in range(len(chart)):
+            #each time the loop runs, it adds a line from the list to the initial result until there are no more items.
+            result = f"{result}{chart[index]}\n"
+        #finally add the header to the final output
+        output = f"{header}\n{result}"
+        return output
 
 
 
@@ -122,6 +125,7 @@ entertainment.deposit(300,"Money for hangouts")
 food.withdraw(100,"groceries")
 food.withdraw(150,"protein supplements")
 food.withdraw(50,"energy driks")
+food.withdraw(50,"desserts")
 
 print(food)
 
