@@ -49,8 +49,7 @@ class Category:
 
     def get_balance(self):
         return self.balance
-        #A get_balance method that returns the current balance of the budget category 
-        #based on the deposits and withdrawals that have occurred
+        #A get_balance method that returns the current balance of the budget category based on the deposits and withdrawals that have occurred
         
     def transfer(self,destination,amount:int,description=""):
         #first check if the given argument to transfer the money to (destination) is an actual category object
@@ -100,10 +99,7 @@ class Category:
             #once extraced, add it to a list so u can pick from that list later in order to print the result
             chart.append(line)
             
-            
-        #need to figure a way to figure out how many items in the intire chart list, then find a dynamic way to add each one into the final output
-        #here i just added the list items through manual index(not great)
-        #go through the chart list (by index) which has each line of discripton and amount as an item.
+        #go through the chart list (by index) which has each line of discripton and amount as an a string item.
         result = ""
         for index in range(len(chart)):
             #each time the loop runs, it adds a line from the list to the initial result until there are no more items.
@@ -112,7 +108,7 @@ class Category:
         output = f"{header}\n{result}"
         return output
 
-#looks like i need to have dedicated deposite ledger and withdraw ledger for each category
+
 
 #creating the category objects
 food = Category("Food")
