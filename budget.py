@@ -1,14 +1,11 @@
 
 
-
 class Category:
-    
     #making an independent ledger for each withdraw and deposit
     deposit_ledger = list()
     withdraw_ledger = list()
     #a class attribute that can be used on all this class objects
     balance = int()
-
     categories = []
     
     def __init__(self,name:str):
@@ -85,11 +82,28 @@ class Category:
             return False
         else:
             return True
+        
     def __repr__(self):
+        header = str("*"*30)
+        title = self.name
+        header = header[int(len(title)):]
+        if len(header) < 30 and len(title) == len(self.name):
+            header = header[:int(len(header)/2)] + str(self.name) + header[int(len(header)/2):]
+            #header is ready, now do the rest
+        chart = list()
         #need to make a loop inside that return statement, a loop which goes through the ledger list by index, then print the description and amount keys from each withdraw disctionary
         for index in range(len(self.withdraw_ledger)):
-            line = f"{self.withdraw_ledger[index]['description']} {self.withdraw_ledger[index]['amount']}"
-            print (line)
+            #next line is where each withdraw or deposite will be presented
+            #this goes through the withdraw legder list by index,pick each operation dictionary, then extracts the key and value(discription and amount) of each
+            line =f"{self.withdraw_ledger[index]['description']} {self.withdraw_ledger[index]['amount']}"
+            #once extraced, add it to a list so u can pick from that list later in order to print the result
+            #question is, should i add each key and value in the chart list as a string? or should i add ass tuples and manipulate it into a string later?
+            chart.append(line)
+            
+            
+        #need to figure a way to figure out how many items in the intire chart list, then find a dynamic way to add each one into the final output
+        #here i just added the list items through manual index(not great)
+        return f"{header}\n{chart[0]}\n{chart[1]}\n{chart[2]}"
         #return f"{self.balance}\n{self.withdraw_ledger[0]['description']} {self.withdraw_ledger[0]['amount']}\n{self.withdraw_ledger[1]['description']} {self.withdraw_ledger[2]}"
 
 
@@ -108,6 +122,7 @@ entertainment.deposit(300,"Money for hangouts")
 food.withdraw(100,"groceries")
 food.withdraw(150,"protein supplements")
 food.withdraw(50,"energy driks")
+
 print(food)
 
 
