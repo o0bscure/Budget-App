@@ -9,20 +9,22 @@ class Category:
     
     def __init__(self,name:str):
         self.name = name
+        self.withdraw_ledger = list()
+        self.deposit_ledger = list()
         Category.categories.append(self) #or self .name ?! , i'll have to look at the latest function requirement later
 
     def deposit(self,amount,description=""):
         #keeping track of the balance
         self.balance = self.balance + amount
-        #created a "self" dictionary for each category object, containing its value and description
-        self = dict()
+        #created a "data" dictionary for each category object, containing its value and description
+        data = dict()
         #okay maybe make a condition to add the key and value if the disctionary doesnt exist to avoid overwriting it
         #you'll have tp manipulate existing ledger in case you wanna deposite twice 
-        self["amount"] = amount
-        self["description"] = description
+        data["amount"] = amount
+        data["description"] = description
         #adding the dictionary to the ledger list
         #hmmm maybe find a way to write that on a csv file (fun)
-        Category.deposit_ledger.append(self)
+        self.deposit_ledger.append(data)
         
     def withdraw(self,amount,description=""):
         #check if the given amount to be withdrawn is actually available for that category
@@ -33,12 +35,12 @@ class Category:
             #okay maybe make a condition to add the key and value if the disctionary doesnt exist to avoid overwriting it
             #you'll have tp manipulate existing ledger in case you wanna withdraw twice
             #each withdraw will add the object withdrawn from as a dictionary
-            self = dict()
+            data = dict()
             #the amount should be stored in the withdraw ledger as a negative number, did that by adding the minus sign as a string then convert it to string
-            self["amount"] = "-"+ str(amount)
-            self["amount"] = int(self["amount"])
-            self["description"] = description
-            Category.withdraw_ledger.append(self)
+            data["amount"] = "-"+ str(amount)
+            data["amount"] = int(data["amount"])
+            data["description"] = description
+            self.withdraw_ledger.append(data)
             return True
         else:
             print("not enough balance")
@@ -110,7 +112,7 @@ class Category:
         output = f"{header}\n{result}"
         return output
 
-
+#looks like i need to have dedicated deposite ledger and withdraw ledger for each category
 
 #creating the category objects
 food = Category("Food")
@@ -118,16 +120,19 @@ clothing = Category("Clothing")
 entertainment = Category("Entertainment")
 
 #calling the deposide method, which creates a dictionary for each category, containing the money deposited for each category along with the description
-food.deposit(500,"Money deposited for food")
+food.deposit(500,"initial deposite")
 clothing.deposit(200,"Money for clothes")
 entertainment.deposit(300,"Money for hangouts")
 
+
+clothing.withdraw(100,"sneakers")
 food.withdraw(100,"groceries")
 food.withdraw(150,"protein supplements")
 food.withdraw(50,"energy driks")
 food.withdraw(50,"desserts")
 
 print(food)
+print(clothing)
 
 
 
