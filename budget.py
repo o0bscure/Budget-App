@@ -1,16 +1,13 @@
 
 class Category:
-    #making an independent ledger for each withdraw and deposit, each object will be assign one of those.
-    deposit_ledger = list()
-    withdraw_ledger = list()
     #a class attribute that can be used on all this class objects
-    balance = int()
+    balance = float()
     categories = []
     
     def __init__(self,name:str):
         self.name = name
-        self.withdraw_ledger = list()
-        self.deposit_ledger = list()
+        #create a ledger list for each indivisual Category (object)
+        self.ledger = list()
         Category.categories.append(self) #or self .name ?! , i'll have to look at the latest function requirement later
 
     def deposit(self,amount,description=""):
@@ -24,7 +21,7 @@ class Category:
         data["description"] = description
         #adding the dictionary to the ledger list
         #hmmm maybe find a way to write that on a csv file (fun)
-        self.deposit_ledger.append(data)
+        self.ledger.append(data)
         
     def withdraw(self,amount,description=""):
         #check if the given amount to be withdrawn is actually available for that category
@@ -38,9 +35,9 @@ class Category:
             data = dict()
             #the amount should be stored in the withdraw ledger as a negative number, did that by adding the minus sign as a string then convert it to string
             data["amount"] = "-"+ str(amount)
-            data["amount"] = int(data["amount"])
+            data["amount"] = float(data["amount"])
             data["description"] = description
-            self.withdraw_ledger.append(data)
+            self.ledger.append(data)
             return True
         else:
             print("not enough balance")
@@ -91,11 +88,11 @@ class Category:
             header = header[:int(len(header)/2)] + str(self.name) + header[int(len(header)/2):]
             #header is ready, now do the rest
         chart = list()
-        #need to make a loop inside that return statement, a loop which goes through the ledger list by index, then print the description and amount keys from each withdraw disctionary
-        for index in range(len(self.withdraw_ledger)):
+        #need to make a loop inside that return statement, a loop which goes through the ledger list by index, then print the description and amount keys from each disctionary
+        for index in range(len(self.ledger)):
             #next line is where each withdraw or deposite will be presented
             #adjust the position of the amount to be aligned on the right, opposite of the description, without exceeding the lenght of the entire header
-            line = str(self.withdraw_ledger[index]['description']) + str(self.withdraw_ledger[index]['amount']).rjust(len(header)-len(self.withdraw_ledger[index]['description']))
+            line = str(self.ledger[index]['description']) + str(self.ledger[index]['amount']).rjust(len(header)-len(self.ledger[index]['description']))
             #once extraced, add it to a list so u can pick from that list later in order to print the result
             chart.append(line)
             
@@ -116,19 +113,16 @@ clothing = Category("Clothing")
 entertainment = Category("Entertainment")
 
 #calling the deposide method, which creates a dictionary for each category, containing the money deposited for each category along with the description
-food.deposit(500,"initial deposite")
-clothing.deposit(200,"Money for clothes")
-entertainment.deposit(300,"Money for hangouts")
-
-
-clothing.withdraw(100,"sneakers")
-food.withdraw(100,"groceries")
-food.withdraw(150,"protein supplements")
-food.withdraw(50,"energy driks")
-food.withdraw(50,"desserts")
+food.deposit(1000,"initial deposite")
+food.withdraw(350,"groceries")
+food.withdraw(350,"supplments")
+food.withdraw(300,"protein sources(chicken,beef,fish)")
 
 print(food)
-print(clothing)
+
+#need to fix an issue where the result line in the chart can exceed the lenght of the header if the description is too long
+
+
 
 
 
