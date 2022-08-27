@@ -100,7 +100,22 @@ class Category:
         result = ""
         for index in range(len(chart)):
             #each time the loop runs, it adds a line from the list to the initial result until there are no more items.
+            #check if an indivisual line length is longer than the header.
+            if len(chart[index]) > len(header):
+                #if it has brackets, break it into two lines
+                if ")" in chart[index] or "(" in chart[index]:
+                    #split the discription into two lines
+                    first = chart[index].split("(")[0]
+                    second = chart[index].split("(")[1]
+                    second = second.split(")")[0]
+                    #adjust the number value to the right without exceeding the header's length (dont forget to subtract the 2 brackets from the rjust(-2))
+                    num = chart[index].split(")")[1].rjust(len(header)-len(second)-2)
+                    chart[index] = f"{first}\n({second}){num}"
+                #i could add more conditional statements here, if i want to maniuplute other strings than the brackets
+            else:
+                pass
             result = f"{result}{chart[index]}\n"
+                
         #finally add the header to the final output
         output = f"{header}\n{result}"
         return output
@@ -117,6 +132,7 @@ food.deposit(1000,"initial deposite")
 food.withdraw(350,"groceries")
 food.withdraw(350,"supplments")
 food.withdraw(300,"protein sources(chicken,beef,fish)")
+food.withdraw(100,"random stuff")
 
 print(food)
 
