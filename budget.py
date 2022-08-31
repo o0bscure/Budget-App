@@ -3,6 +3,10 @@ class Category:
     #a class attribute that can be used on all this class objects
     balance = float()
     categories = []
+    #keeps track of all deposted money
+    total_deposite = float()
+    #keeps track of all spent money
+    total_spent = dict()
     
     def __init__(self,name:str):
         self.name = name
@@ -11,6 +15,8 @@ class Category:
         Category.categories.append(self) #or self .name ?! , i'll have to look at the latest function requirement later
 
     def deposit(self,amount,description=""):
+        #keep track of all deposited money
+        Category.total_deposite = Category.total_deposite + amount
         #keeping track of the balance
         self.balance = self.balance + amount
         #created a "data" dictionary for each category object, containing its value and description
@@ -38,6 +44,13 @@ class Category:
             data["amount"] = float(data["amount"])
             data["description"] = description
             self.ledger.append(data)
+            
+            #add each amount spent in a separate dictionary, to calculate the percentage spent for each category
+            if f"{self.name}" in Category.total_spent:
+                Category.total_spent[f"{self.name}"] = Category.total_spent[f"{self.name}"] + float(data["amount"])
+            else:
+                Category.total_spent[f"{self.name}"] = float(data["amount"])
+                
             return True
         else:
             print("not enough balance")
@@ -128,46 +141,16 @@ clothing = Category("Clothing")
 entertainment = Category("Entertainment")
 
 #calling the deposide method, which creates a dictionary for each category, containing the money deposited for each category along with the description
+clothing.deposit(400,"clothing deposite")
 food.deposit(1000,"initial deposite")
 food.withdraw(350,"groceries")
 food.withdraw(350,"supplments")
 food.withdraw(300,"protein sources(chicken,beef,fish)")
 food.withdraw(100,"random stuff")
-
-print(food)
+clothing.withdraw(150,"sneakers")
+food.deposit(600,"extra funds")
 
 #need to fix an issue where the result line in the chart can exceed the lenght of the header if the description is too long
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -184,7 +167,42 @@ categories = []
 for cat in Category.categories:
     categories.append(cat.name)
 def create_spend_chart(categories):
+
+    
+    
+    #create empty rows
+    rows = f"{ '9' * (len(categories)+7)}"
+    columns = f'''
+   100|{' '*(len(categories)+7)}
+    90|{' '*(len(categories)+7)}
+    80|{' '*(len(categories)+7)}
+    70|{' '*(len(categories)+7)}
+    60|{' '*(len(categories)+7)}
+    50|{' '*(len(categories)+7)}
+    40|{' '*(len(categories)+7)}
+    30|{' '*(len(categories)+7)}
+    20|{' '*(len(categories)+7)}
+    10|{' '*(len(categories)+7)}
+     0|{' '*(len(categories)+7)}
+       {"-"*(len(categories)+7)}
+        {categories[0][0]}  {categories[1][0]}  {categories[2][0]}
+        {categories[0][1]}  {categories[1][1]}  {categories[2][1]}
+        {categories[0][2]}  {categories[1][2]}  {categories[2][2]}
+        {categories[0][3]}  {categories[1][3]}  {categories[2][3]}
+           {categories[1][4]}  {categories[2][4]}
+           {categories[1][5]}  {categories[2][5]}
+           {categories[1][6]}  {categories[2][6]}
+           {categories[1][7]}  {categories[2][7]}
+              {categories[2][8]}
+              {categories[2][9]}
+              {categories[2][10]}
+              {categories[2][11]}
+              {categories[2][12]}
+        
+        '''
+    
+    
     #create a function (outside of the class) called create_spend_chart that takes a list of categories as an argument. It should return a string that is a bar chart.
-    return str(categories)
+    return Category.total_spent
 #print this method later
-create_spend_chart(categories)
+print(create_spend_chart(categories))
