@@ -141,22 +141,13 @@ clothing = Category("Clothing")
 entertainment = Category("Entertainment")
 
 #calling the deposide method, which creates a dictionary for each category, containing the money deposited for each category along with the description
-clothing.deposit(400,"clothing deposite")
-food.deposit(1000,"initial deposite")
+clothing.deposit(400,"clothing deposit")
+food.deposit(1000,"initial deposit")
 food.withdraw(350,"groceries")
 food.withdraw(350,"supplments")
 food.withdraw(300,"protein sources(chicken,beef,fish)")
-food.withdraw(100,"random stuff")
 clothing.withdraw(150,"sneakers")
 food.deposit(600,"extra funds")
-
-#need to fix an issue where the result line in the chart can exceed the lenght of the header if the description is too long
-
-
-
-
-
-
 
 
 
@@ -167,6 +158,10 @@ categories = []
 for cat in Category.categories:
     categories.append(cat.name)
 def create_spend_chart(categories):
+    
+    #calculate the percentage of the spent amount(did that for one category only)
+    quotient = abs(Category.total_spent[f"{categories[0]}"])/ Category.total_deposite
+    percent = quotient * 100
 
     
     
@@ -203,6 +198,6 @@ def create_spend_chart(categories):
     
     
     #create a function (outside of the class) called create_spend_chart that takes a list of categories as an argument. It should return a string that is a bar chart.
-    return Category.total_spent
+    return percent
 #print this method later
 print(create_spend_chart(categories))
