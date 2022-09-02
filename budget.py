@@ -158,10 +158,16 @@ categories = []
 for cat in Category.categories:
     categories.append(cat.name)
 def create_spend_chart(categories):
-    
     #calculate the percentage of the spent amount(did that for one category only)
-    quotient = abs(Category.total_spent[f"{categories[0]}"])/ Category.total_deposite
-    percent = quotient * 100
+    for i in range(len(categories)):
+        if categories[i] in Category.total_spent:
+            quotient = abs(Category.total_spent[f"{categories[i]}"])/ Category.total_deposite
+            percent = quotient * 100
+            print(f"{percent} % of the budget spent on {categories[i]}")
+        else: 
+            percent = 0
+            print(f"{percent} % of the budget spent on {categories[i]}")
+        
 
     
     
@@ -198,6 +204,6 @@ def create_spend_chart(categories):
     
     
     #create a function (outside of the class) called create_spend_chart that takes a list of categories as an argument. It should return a string that is a bar chart.
-    return percent
+
 #print this method later
 print(create_spend_chart(categories))
