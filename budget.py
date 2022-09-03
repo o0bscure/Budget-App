@@ -125,6 +125,13 @@ class Category:
                     num = chart[index].split(")")[1].rjust(len(header)-len(second)-2)
                     chart[index] = f"{first}\n({second}){num}"
                 #i could add more conditional statements here, if i want to maniuplute other strings than the brackets
+                else:
+                    sign = chart[index].find("-")
+                    description = chart[index][:sign]
+                    num = chart[index][sign:]
+                    description = description[0:len(header)-len(num)]
+                    chart[index] = f"{description}{num}"
+                    #chart[index] = chart[index][:]
             else:
                 pass
             result = f"{result}{chart[index]}\n"
@@ -145,7 +152,7 @@ clothing.deposit(400,"clothing deposit")
 food.deposit(1000,"initial deposit")
 food.withdraw(350,"groceries")
 food.withdraw(350,"supplments")
-food.withdraw(300,"protein sources(chicken,beef,fish)")
+food.withdraw(300,"protein sources like chicken, beef and fish")
 clothing.withdraw(150,"sneakers")
 food.deposit(600,"extra funds")
 
@@ -200,4 +207,4 @@ def create_spend_chart(categories):
     #create a function (outside of the class) called create_spend_chart that takes a list of categories as an argument. It should return a string that is a bar chart.
     return percent
 #print this method later
-print(create_spend_chart(categories))
+print(food)
