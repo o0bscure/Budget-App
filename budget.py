@@ -111,7 +111,7 @@ class Category:
         for index in range(len(self.ledger)):
             #next line is where each withdraw or deposite will be presented
             #adjust the position of the amount to be aligned on the right, opposite of the description, without exceeding the lenght of the entire header
-            line = str(self.ledger[index]['description']) + str(self.ledger[index]['amount']).rjust(len(header)-len(self.ledger[index]['description']))
+            line = str(self.ledger[index]['description']) + str(f"{self.ledger[index]['amount']:.2f}").rjust(len(header)-len(self.ledger[index]['description']))
             #once extraced, add it to a list so u can pick from that list later in order to print the result
             chart.append(line)
             
@@ -224,6 +224,7 @@ auto.withdraw(15)
 
 for line in food.ledger:
     print(line)
+print(food)
     
     
 #there should be double zeros by the end of the number (900.00)
