@@ -23,7 +23,7 @@ class Category:
         data = dict()
         #okay maybe make a condition to add the key and value if the disctionary doesnt exist to avoid overwriting it
         #you'll have tp manipulate existing ledger in case you wanna deposite twice 
-        data["amount"] = amount
+        data["amount"] = float(amount)
         data["description"] = description
         #adding the dictionary to the ledger list
         #hmmm maybe find a way to write that on a csv file (fun)
@@ -73,21 +73,21 @@ class Category:
                 return False
             else:
                 #assert len(description) > 1, f"please add a transfer description"
-                description = f"Transfer to [{destination.name}]"
+                description = f"Transfer to {destination.name}"
                 self.withdraw(amount)
                 data = dict()
                 data["amount"] = amount
-                data["descritiption"] = description
+                data["description"] = description
                 self.ledger.append(data)
                 #check within the categories list if the category you're transfering to exists
                 for object in Category.categories:
                     if destination == object:
                         #if the targetted category(object) exist, deposite the money you trasfered
                         object.deposit(amount)
-                        description = f"Transfer from [{self.name}]"
+                        description = f"Transfer from {self.name}"
                         data = dict()
                         data["amount"] = amount
-                        data["descritiption"] = description
+                        data["description"] = description
                         self.ledger.append(data)
                         return True       
     
@@ -99,7 +99,7 @@ class Category:
         else:
             return True
         
-    def __repr__(self):
+    def __str__(self):
         header = str("*"*30)
         title = self.name
         header = header[int(len(title)):]
@@ -222,5 +222,9 @@ auto = Category("Auto")
 auto.deposit(1000, "initial deposit")
 auto.withdraw(15)
 
-print(food)
-print(clothing)
+for line in food.ledger:
+    print(line)
+    
+    
+#there should be double zeros by the end of the number (900.00)
+#there is a missing transfer operation from food to entertainment 
