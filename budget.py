@@ -61,7 +61,7 @@ class Category:
         return self.balance
         #A get_balance method that returns the current balance of the budget category based on the deposits and withdrawals that have occurred
         
-    def transfer(self,destination,amount:int,description=""):
+    def transfer(self,amount:int,destination,description=""):
         #first check if the given argument to transfer the money to (destination) is an actual category object
         if not isinstance(destination,Category):
             print(f"{destination} isn't a category")
@@ -73,16 +73,22 @@ class Category:
                 return False
             else:
                 #assert len(description) > 1, f"please add a transfer description"
-                description = f"Transfer {amount} to [{destination.name}]"
-                print(description)
+                description = f"Transfer to [{destination.name}]"
                 self.withdraw(amount)
+                data = dict()
+                data["amount"] = amount
+                data["descritiption"] = description
+                self.ledger.append(data)
                 #check within the categories list if the category you're transfering to exists
                 for object in Category.categories:
                     if destination == object:
                         #if the targetted category(object) exist, deposite the money you trasfered
                         object.deposit(amount)
-                        description = f"Transfer {amount} from [{self.name}]"
-                        print(description)
+                        description = f"Transfer from [{self.name}]"
+                        data = dict()
+                        data["amount"] = amount
+                        data["descritiption"] = description
+                        self.ledger.append(data)
                         return True       
     
     #a function that tells you if the input amount is availble for that particular category
@@ -148,13 +154,7 @@ clothing = Category("Clothing")
 entertainment = Category("Entertainment")
 
 #calling the deposide method, which creates a dictionary for each category, containing the money deposited for each category along with the description
-clothing.deposit(400,"clothing deposit")
-food.deposit(1000,"initial deposit")
-food.withdraw(350,"groceries")
-food.withdraw(350,"supplments")
-food.withdraw(300,"protein sources like chicken, beef and fish")
-clothing.withdraw(150,"sneakers")
-food.deposit(600,"extra funds")
+
 
 
 
@@ -207,4 +207,20 @@ def create_spend_chart(categories):
     #create a function (outside of the class) called create_spend_chart that takes a list of categories as an argument. It should return a string that is a bar chart.
     return percent
 #print this method later
+
+
+food = Category("Food")
+food.deposit(1000, "initial deposit")
+food.withdraw(10.15, "groceries")
+food.withdraw(15.89, "restaurant and more food for dessert")
+print(food.get_balance())
+clothing = Category("Clothing")
+food.transfer(50, clothing)
+clothing.withdraw(25.55)
+clothing.withdraw(100)
+auto = Category("Auto")
+auto.deposit(1000, "initial deposit")
+auto.withdraw(15)
+
 print(food)
+print(clothing)
