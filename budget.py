@@ -142,7 +142,7 @@ class Category:
             result = f"{result}{chart[index]}\n"
                 
         #finally add the header to the final output
-        output = f"{header}\n{result}\nTotal                   {self.balance}"
+        output = f"{header}\n{result}Total: {self.balance}"
         return output
 
 
@@ -212,8 +212,5 @@ food.transfer(50,clothing)
 
 print(food)
     
-#there should be double zeros by the end of the number (900.00)
 #add total to the table
-#there should be at least 1 space between the description and the number
-#there is a missing transfer operation from food to entertainment 
-#transfer should be added to the ledger with a minus sign
+
