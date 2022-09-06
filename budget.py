@@ -72,23 +72,21 @@ class Category:
                 print(f"not enough balance in {self.name} category")
                 return False
             else:
-                #assert len(description) > 1, f"please add a transfer description"
                 description = f"Transfer to {destination.name}"
-                self.withdraw(amount)
+                self.withdraw(amount,description)
                 data = dict()
-                data["amount"] = amount
-                data["description"] = description
-                self.ledger.append(data)
+                data["amount"] = "-"+ str(amount)
+                data["amount"] = float(data["amount"])
+                #self.ledger.append(data)
                 #check within the categories list if the category you're transfering to exists
                 for object in Category.categories:
                     if destination == object:
                         #if the targetted category(object) exist, deposite the money you trasfered
-                        object.deposit(amount)
                         description = f"Transfer from {self.name}"
+                        object.deposit(amount,description)
                         data = dict()
                         data["amount"] = amount
                         data["description"] = description
-                        self.ledger.append(data)
                         return True       
     
     #a function that tells you if the input amount is availble for that particular category
@@ -133,30 +131,19 @@ class Category:
                 #i could add more conditional statements here, if i want to maniuplute other strings than the brackets
                 else:
                     sign = chart[index].find("-")
-                    description = chart[index][:sign]
+                    description = chart[index][:sign-1]
+                    print(description)
                     num = chart[index][sign:]
                     description = description[0:len(header)-len(num)]
-                    chart[index] = f"{description}{num}"
-                    #chart[index] = chart[index][:]
+                    chart[index] = f"{description[:-1]} {num}"
+
             else:
                 pass
             result = f"{result}{chart[index]}\n"
                 
         #finally add the header to the final output
-        output = f"{header}\n{result}"
+        output = f"{header}\n{result}\nTotal                   {self.balance}"
         return output
-
-
-
-#creating the category objects
-food = Category("Food")
-clothing = Category("Clothing")
-entertainment = Category("Entertainment")
-
-#calling the deposide method, which creates a dictionary for each category, containing the money deposited for each category along with the description
-
-
-
 
 
 
@@ -210,22 +197,23 @@ def create_spend_chart(categories):
 
 
 food = Category("Food")
-food.deposit(1000, "initial deposit")
-food.withdraw(10.15, "groceries")
-food.withdraw(15.89, "restaurant and more food for dessert")
-print(food.get_balance())
-clothing = Category("Clothing")
-food.transfer(50, clothing)
-clothing.withdraw(25.55)
-clothing.withdraw(100)
-auto = Category("Auto")
-auto.deposit(1000, "initial deposit")
-auto.withdraw(15)
 
-for line in food.ledger:
-    print(line)
+clothing = Category("Clothing")
+
+entertainment = Category("Entertainment")
+
+auto = Category("Auto")
+
+food.deposit(900, "deposit")
+food.withdraw(45.67, "milk, cereal, eggs, bacon, bread")
+food.transfer(20,entertainment)
+food.transfer(50,clothing)
+
+
 print(food)
     
-    
 #there should be double zeros by the end of the number (900.00)
+#add total to the table
+#there should be at least 1 space between the description and the number
 #there is a missing transfer operation from food to entertainment 
+#transfer should be added to the ledger with a minus sign
