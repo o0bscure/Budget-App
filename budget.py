@@ -168,76 +168,67 @@ def create_spend_chart(x):
             #add the lenght of each category name to a list
             category_names_length.append(len(f"{cat.name}"))
 
-    per = 100
-    rows = ""
-    upper_chart = list()
+
+
+
     per_pin = [0,10,20,30,40,50,60,70,80,90,100]
+    #per chart is a dictrionary that saves the percentage based(category:percentage)
     per_chart = dict()
-    for catpin in per_pin:
+    for x in per_pin:
         for cat,num in percentage_dict.items():
-            if num > catpin:
-                per_chart[f"{cat}"] = catpin + 10
+            if num > x:
+                per_chart[f"{cat}"] = x + 10
     #per_chart is the dictionary u should rely on now (it has the normalize version of the percentage chart with values like 0,10,20 .... 100)
+
+    #markers to add to the chart
+    marker = f"  o"
+    #header
+    header = "Percentage spent per category"
+    #the seperating line
+    per_line = f"    {'-'*(len(Category.categories)+7)}"
     
-    #while there are still items in the per chart dictionary
-    while len(per_chart)>0:
-        for row in range(12+max(category_names_length)):
-            if len(str(per)) == 2:
-                per_line = f"{rows} {per}|"
-            elif len(str(per)) == 1:
-                per_line = f"{rows}  {per}|"
+    #work on the upper part of the chart
+    #for each item in the spent categories (food and clothing in this case)
+    for item in per_chart:
+        upper= ""
+        pos = 10
+        print(item)
+        #go through the list of numbers[0,100]
+        for x in per_pin:
+            if per_pin[pos] == 100:
+                upper = f"{per_pin[pos]}|\n"
+            elif per_pin[pos] == 0:
+                if per_chart[item] >= per_pin[pos]:
+                    upper = upper + f"  {per_pin[pos]}|{marker}\n"
+                else:
+                    upper = upper + f"  {per_pin[pos]}|\n"
             else:
-                per_line = f"{rows}{per}|"
-            per = per - 10    
-            if per < 0:
-                per_line = f"    {'-'*(len(Category.categories)+7)}"
-                upper_chart.append(f"{per_line}\n")
-                break
-            upper_chart.append(f"{per_line}\n")
-        print(upper_chart)
-        line = ""
-        for cat in per_chart:
-            x = f"{cat[0]}  "
-            line = x + x
+                if per_chart[item] >= per_pin[pos]:
+                    upper = upper + f" {per_pin[pos]}|{marker}\n"
+                else:
+                    upper = upper + f" {per_pin[pos]}|\n"
+            pos = pos - 1
+            if pos < 0: break
+        
+        result = f"{header}\n{upper}{per_line}"
+    print(result)
+
+ 
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
         #removing each category item form the dictionary as it gets to printed to stop the while loop
-        per_chart.pop(f"{cat}")
-        print(per_chart)
-
-        
 
 
-    
-    
-    #create empty rows
-    #rows = f"{ '9' * (len(categories)+7)}"
-    #columns = f'''
-   #100|{' '*(len(categories)+7)}
-    #90|{' '*(len(categories)+7)}
-    #80|{' '*(len(categories)+7)}
-    #70|{' '*(len(categories)+7)}
-    #60|{' '*(len(categories)+7)}
-    #50|{' '*(len(categories)+7)}
-    #40|{' '*(len(categories)+7)}
-    #30|{' '*(len(categories)+7)}
-    #20|{' '*(len(categories)+7)}
-    #10|{' '*(len(categories)+7)}
-     #0|{' '*(len(categories)+7)}
-       #{"-"*(len(categories)+7)}
-        #{categories[0][0]}  {categories[1][0]}  {categories[2][0]}
-        #{categories[0][1]}  {categories[1][1]}  {categories[2][1]}
-        #{categories[0][2]}  {categories[1][2]}  {categories[2][2]}
-        #{categories[0][3]}  {categories[1][3]}  {categories[2][3]}
-           #{categories[1][4]}  {categories[2][4]}
-           #{categories[1][5]}  {categories[2][5]}
-           #{categories[1][6]}  {categories[2][6]}
-           #{categories[1][7]}  {categories[2][7]}
-              #{categories[2][8]}
-              #{categories[2][9]}
-              #{categories[2][10]}
-              #{categories[2][11]}
-              #{categories[2][12]}
-        
-        #'''
+
+
     
     
     #create a function (outside of the class) called create_spend_chart that takes a list of categories as an argument. It should return a string that is a bar chart.
@@ -259,4 +250,4 @@ clothing.withdraw(20,"hat")
 
 #add total to the table
 
-print(create_spend_chart(Category.categories))
+create_spend_chart(Category.categories)
