@@ -213,18 +213,22 @@ def create_spend_chart(x):
                     upper_list[pos] = upper_list[pos] + marker
             pos = pos + 1
         #work on the upper part of the chart is done, now for the lower part
-        for x in per_pin:
-            if len(lower_list) < 11:
-                pass
+        #loop through the letters is each category
+        for letter in item:
+            print(item)
+            print(len(item))
+            pos = 0
+            #next lines are bugged
+            lower_list.append(f"     {letter}")
+            if len(lower_list) == len(item): break
+            print(lower_list)
+            print(len(lower_list))
             
-            
-          
 
-    
-    
-    
-    
-    
+            
+            
+    #for line in lower_list:
+        #print(line)
     
     
     for line in upper_list:
@@ -233,7 +237,7 @@ def create_spend_chart(x):
 
         
     result = f"{header}\n{upper}{per_line}"
-    print(result)
+    #print(result)
 
  
             
