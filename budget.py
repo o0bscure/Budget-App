@@ -170,7 +170,6 @@ def create_spend_chart(x):
 
 
 
-
     per_pin = [0,10,20,30,40,50,60,70,80,90,100]
     #per chart is a dictrionary that saves the percentage based(category:percentage)
     per_chart = dict()
@@ -186,31 +185,54 @@ def create_spend_chart(x):
     header = "Percentage spent per category"
     #the seperating line
     per_line = f"    {'-'*(len(Category.categories)+7)}"
+    upper = ""
+    upper_list= []
+    lower_list = []
     
     #work on the upper part of the chart
     #for each item in the spent categories (food and clothing in this case)
     for item in per_chart:
-        upper= ""
-        pos = 10
-        print(item)
         #go through the list of numbers[0,100]
-        for x in per_pin:
-            if per_pin[pos] == 100:
-                upper = f"{per_pin[pos]}|\n"
-            elif per_pin[pos] == 0:
-                if per_chart[item] >= per_pin[pos]:
-                    upper = upper + f"  {per_pin[pos]}|{marker}\n"
+        pos = 0
+        for x in reversed(per_pin):
+            if len(upper_list) < 11:
+                if x == 100:
+                    upper_list.append(f"{x}|")
+                elif x == 0:
+                    if per_chart[item] >= x:
+                        upper_list.append(f"  {x}|{marker}")
+                    else:
+                        upper_list.append(f"  {x}|")
                 else:
-                    upper = upper + f"  {per_pin[pos]}|\n"
+                    if per_chart[item] >= x:
+                        upper_list.append(f" {x}|{marker}")
+                    else:
+                        upper_list.append(f" {x}|")
             else:
-                if per_chart[item] >= per_pin[pos]:
-                    upper = upper + f" {per_pin[pos]}|{marker}\n"
-                else:
-                    upper = upper + f" {per_pin[pos]}|\n"
-            pos = pos - 1
-            if pos < 0: break
+                if per_chart[item] >= x:
+                    upper_list[pos] = upper_list[pos] + marker
+            pos = pos + 1
+        #work on the upper part of the chart is done, now for the lower part
+        for x in per_pin:
+            if len(lower_list) < 11:
+                pass
+            
+            
+          
+
+    
+    
+    
+    
+    
+    
+    
+    for line in upper_list:
+        upper = upper + line + "\n"
+
+
         
-        result = f"{header}\n{upper}{per_line}"
+    result = f"{header}\n{upper}{per_line}"
     print(result)
 
  
