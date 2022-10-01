@@ -1,4 +1,5 @@
 
+from logging import exception
 from traceback import print_tb
 from unicodedata import category
 from unittest import result
@@ -156,9 +157,9 @@ class Category:
 percentage_dict = dict()
 #list to save each category name's length to use in the chart
 category_names_length = list()
-def create_spend_chart(x):
+def create_spend_chart(z):
     #calculate the percentage of the spent amount(did that for one category only)
-    for cat in x:
+    for cat in z:
         #only go through the categories the are spent from (categories stored in total spend dictionary)
         if f"{cat.name}" in Category.total_spent:
             #remember youre only taking the percentage of each money spend on each category relative to the ENITIRE BUDGET
@@ -184,7 +185,7 @@ def create_spend_chart(x):
     #header
     header = "Percentage spent per category"
     #the seperating line
-    per_line = f"    {'-'*(len(Category.categories)+7)}"
+    per_line = f"    {'-'*(len(Category.categories)+9)}"
     upper = ""
     upper_list= []
     lower_list = []
@@ -214,30 +215,26 @@ def create_spend_chart(x):
             pos = pos + 1
         #work on the upper part of the chart is done, now for the lower part
         #loop through the letters is each category
-        for letter in item:
-            print(item)
-            print(len(item))
-            pos = 0
-            #next lines are bugged
-            lower_list.append(f"     {letter}")
-            if len(lower_list) == len(item): break
-            print(lower_list)
-            print(len(lower_list))
-            
-
-            
-            
-    #for line in lower_list:
-        #print(line)
-    
     
     for line in upper_list:
         upper = upper + line + "\n"
-
-
         
-    result = f"{header}\n{upper}{per_line}"
-    #print(result)
+    pos = 0
+    lower = ""
+    while True:
+        try:
+            lower = lower+ 6*" "
+            for cat in z:
+                lower = lower + cat.name[pos] + "  "
+            pos = pos + 1
+            lower = lower + "\n"
+        except Exception as exception:
+            print(exception)
+            #need to find a way to go through the index issue, 
+            break
+ 
+    result = f"{header}\n{upper}{per_line}\n{lower}"
+    print(result)
 
  
             
