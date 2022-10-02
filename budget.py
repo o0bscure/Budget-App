@@ -1,5 +1,6 @@
 
 from logging import exception
+from os import remove
 from traceback import print_tb
 from unicodedata import category
 from unittest import result
@@ -188,8 +189,7 @@ def create_spend_chart(z):
     per_line = f"    {'-'*(len(Category.categories)+9)}"
     upper = ""
     upper_list= []
-    lower_list = []
-    
+
     #work on the upper part of the chart
     #for each item in the spent categories (food and clothing in this case)
     for item in per_chart:
@@ -224,17 +224,29 @@ def create_spend_chart(z):
     while True:
         try:
             lower = lower+ 6*" "
+            print(lower)
             for cat in z:
+                print(pos)
+                if pos == len(cat.name):
+                    print("remove ",cat.name)
+                    #once the position exceedes the length of given category(all category letters have been printed), remove the category from the list.
+                    z.remove(cat)
+                    lower = lower + cat.name[pos +1] + "  "
+                    continue
                 lower = lower + cat.name[pos] + "  "
             pos = pos + 1
             lower = lower + "\n"
+            #break the loop with all categories are removed from the category list
+            if len(z) < 1: 
+                break
+
         except Exception as exception:
             print(exception)
             #need to find a way to go through the index issue, 
             break
  
     result = f"{header}\n{upper}{per_line}\n{lower}"
-    print(result)
+    #print(result)
 
  
             
@@ -262,7 +274,6 @@ def create_spend_chart(z):
 food = Category("Food")
 clothing = Category("Clothing")
 entertainment = Category("Entertainment")
-auto = Category("Auto")
 
 food.deposit(900, "deposit")
 food.withdraw(45.67, "milk, cereal, eggs, bacon, bread")
