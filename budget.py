@@ -1,11 +1,3 @@
-
-from logging import exception
-from os import remove
-from traceback import print_tb
-from unicodedata import category
-from unittest import result
-
-
 class Category:
     #a class attribute that can be used on all this class objects
     balance = float()
@@ -170,8 +162,6 @@ def create_spend_chart(z):
             #add the lenght of each category name to a list
             category_names_length.append(len(f"{cat.name}"))
 
-
-
     per_pin = [0,10,20,30,40,50,60,70,80,90,100]
     #per chart is a dictrionary that saves the percentage based(category:percentage)
     per_chart = dict()
@@ -218,70 +208,40 @@ def create_spend_chart(z):
     
     for line in upper_list:
         upper = upper + line + "\n"
-        
-    pos = 0
+
     lower = ""
-    while True:
+    for i in range(max(category_names_length)):
         try:
             lower = lower+ 6*" "
-            print(lower)
             for cat in z:
-                print(pos)
-                if pos == len(cat.name):
-                    print("remove ",cat.name)
-                    #once the position exceedes the length of given category(all category letters have been printed), remove the category from the list.
-                    z.remove(cat)
-                    lower = lower + cat.name[pos +1] + "  "
+                if i >= len(cat.name):
+                    #once the position exceedes the length of given category(all category letters have been printed)
+                    lower = lower + "   "
                     continue
-                lower = lower + cat.name[pos] + "  "
-            pos = pos + 1
+                lower = lower + cat.name[i] + "  "
             lower = lower + "\n"
-            #break the loop with all categories are removed from the category list
-            if len(z) < 1: 
-                break
-
         except Exception as exception:
             print(exception)
             #need to find a way to go through the index issue, 
-            break
  
     result = f"{header}\n{upper}{per_line}\n{lower}"
-    #print(result)
-
- 
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-        #removing each category item form the dictionary as it gets to printed to stop the while loop
-
-
-
-
-    
-    
-    #create a function (outside of the class) called create_spend_chart that takes a list of categories as an argument. It should return a string that is a bar chart.
-    #return str()
-#print this method later
-
+    print(result)
 
 food = Category("Food")
-clothing = Category("Clothing")
-entertainment = Category("Entertainment")
+entertainment=Category("Entertainment")
+business=Category("Business")
+
+
 
 food.deposit(900, "deposit")
-food.withdraw(45.67, "milk, cereal, eggs, bacon, bread")
-food.transfer(20,entertainment)
-food.transfer(50,clothing)
-clothing.withdraw(20,"hat")
+entertainment.deposit(900, "deposit")
+business.deposit(900, "deposit")
+food.withdraw(105.55)
+entertainment.withdraw(33.40)
+business.withdraw(10.99)
+print(percentage_dict)
+#create_spend_chart(Category.categories)
 
 
-#add total to the table
-
-create_spend_chart(Category.categories)
+#somthing wrong with the percentage calculations!
+#the loop keeps going several times after the intended iterations, even if its not printing
