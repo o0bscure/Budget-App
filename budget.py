@@ -1,3 +1,4 @@
+
 class Category:
     #a class attribute that can be used on all this class objects
     balance = float()
@@ -151,12 +152,15 @@ percentage_dict = dict()
 #list to save each category name's length to use in the chart
 category_names_length = list()
 def create_spend_chart(z):
+    total_withdrawal = 0
+    for key,value in Category.total_spent.items():
+        total_withdrawal = total_withdrawal + abs(value)
     #calculate the percentage of the spent amount(did that for one category only)
     for cat in z:
         #only go through the categories the are spent from (categories stored in total spend dictionary)
         if f"{cat.name}" in Category.total_spent:
             #remember youre only taking the percentage of each money spend on each category relative to the ENITIRE BUDGET
-            quotient = abs(Category.total_spent[f"{cat.name}"])/ Category.total_deposite
+            quotient = abs(Category.total_spent[f"{cat.name}"])/ total_withdrawal
             percent = quotient * 100
             percentage_dict[f"{cat.name}"] = int(percent)
             #add the lenght of each category name to a list
@@ -239,9 +243,6 @@ business.deposit(900, "deposit")
 food.withdraw(105.55)
 entertainment.withdraw(33.40)
 business.withdraw(10.99)
-print(percentage_dict)
-#create_spend_chart(Category.categories)
-
-
+create_spend_chart(Category.categories)
 #somthing wrong with the percentage calculations!
 #the loop keeps going several times after the intended iterations, even if its not printing
