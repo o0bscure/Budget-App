@@ -159,8 +159,8 @@ def create_spend_chart(z):
     for cat in z:
         #only go through the categories the are spent from (categories stored in total spend dictionary)
         if f"{cat.name}" in Category.total_spent:
-            #remember youre only taking the percentage of each money spend on each category relative to the ENITIRE BUDGET
             quotient = abs(Category.total_spent[f"{cat.name}"])/ total_withdrawal
+            #turns out i had to take the percentage spent for each category relative to the the total withdrawals
             percent = quotient * 100
             percentage_dict[f"{cat.name}"] = int(percent)
             #add the lenght of each category name to a list
@@ -244,5 +244,4 @@ food.withdraw(105.55)
 entertainment.withdraw(33.40)
 business.withdraw(10.99)
 create_spend_chart(Category.categories)
-#somthing wrong with the percentage calculations!
 #the loop keeps going several times after the intended iterations, even if its not printing
