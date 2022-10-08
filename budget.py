@@ -21,8 +21,6 @@ class Category:
         self.balance = self.balance + amount
         #created a "data" dictionary for each category object, containing its value and description
         data = dict()
-        #okay maybe make a condition to add the key and value if the disctionary doesnt exist to avoid overwriting it
-        #you'll have tp manipulate existing ledger in case you wanna deposite twice 
         data["amount"] = float(amount)
         data["description"] = description
         #adding the dictionary to the ledger list
