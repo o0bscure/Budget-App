@@ -72,19 +72,12 @@ class Category:
             else:
                 description = f"Transfer to {destination.name}"
                 self.withdraw(amount,description)
-                data = dict()
-                data["amount"] = "-"+ str(amount)
-                data["amount"] = float(data["amount"])
-                #self.ledger.append(data)
                 #check within the categories list if the category you're transfering to exists
                 for object in Category.categories:
                     if destination == object:
                         #if the targetted category(object) exist, deposite the money you trasfered
                         description = f"Transfer from {self.name}"
                         object.deposit(amount,description)
-                        data = dict()
-                        data["amount"] = amount
-                        data["description"] = description
                         return True       
     
     #a function that tells you if the input amount is availble for that particular category
@@ -238,8 +231,12 @@ business=Category("Business")
 food.deposit(900, "deposit")
 entertainment.deposit(900, "deposit")
 business.deposit(900, "deposit")
-food.withdraw(105.55)
+food.withdraw(105.55,"carb sources")
+food.transfer(120,business)
 entertainment.withdraw(33.40)
 business.withdraw(10.99)
-create_spend_chart(Category.categories)
+
+print(business)
+print(food)
+#create_spend_chart(Category.categories)
 #the loop keeps going several times after the intended iterations, even if its not printing
